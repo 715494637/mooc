@@ -12,6 +12,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"strconv"
 	"time"
+   "crypto/tls"
 )
 
 type YingHua struct {
@@ -26,6 +27,7 @@ func New(user config.User) *YingHua {
 	client.SetBaseURL(user.BaseURL)
 	client.SetRetryCount(3)
 	client.SetHeader("user-agent", browser.Mobile())
+   client.SetTLSClientConfig(&tls.Config{InsecureSkipVerify: true}) // 跳过证书验证
 	return &YingHua{
 		User:   user,
 		client: client,
